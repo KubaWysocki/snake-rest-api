@@ -14,7 +14,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'username'
 
 class GameMode(Model):
-    board_size = CharField(
+    board = CharField(
         max_length=5,
         choices=[
             ('20x15', 'small'),
@@ -33,10 +33,10 @@ class GameMode(Model):
     border = BooleanField()
 
     class Meta:
-        unique_together = ('board_size', 'speed', 'acceleration', 'border')
+        unique_together = ('board', 'speed', 'acceleration', 'border')
 
     def __str__(self):
-        return self.board_size + "_b" + str(int(self.border)) + "_a" + str(int(self.acceleration)) + "_" + str(self.speed)
+        return self.board + "_b" + str(int(self.border)) + "_a" + str(int(self.acceleration)) + "_" + str(self.speed)
 
 class Record(Model):
     user = ForeignKey(User, CASCADE)

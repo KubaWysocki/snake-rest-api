@@ -19,7 +19,7 @@ class UserSerializer(ModelSerializer):
 class GameModeSerializer(ModelSerializer):
     class Meta:
         model = GameMode
-        fields = ('board_size', 'speed', 'acceleration', 'border')
+        fields = ('board', 'speed', 'acceleration', 'border')
 
 class ScoreboardSerializer(ModelSerializer):
     user = CharField()
@@ -34,7 +34,8 @@ class ScoreboardSerializer(ModelSerializer):
         if len(game_mode) == 0:
             new_game_mode = GameModeSerializer(data=validated_data)
             if new_game_mode.is_valid():
-                game_mode = GameMode.objects.create(**new_game_mode.data)
+                GameMode.objects.create(**new_game_mode.data)
+                game_mode = GameMode.objects.filter(**validated_data)
 
         record = game_mode.first().record_set.filter(user=user)
         if len(record) == 0:
@@ -45,9 +46,7 @@ class ScoreboardSerializer(ModelSerializer):
             )
             return 'First personal highscore in this game mode!'
         elif record.first().score < score:
-            record.update(
-                score=score,
-            )
+            record.update(score=score)
             return 'New personal highscore in this game mode!!!'
 
         return 'Try again!'
