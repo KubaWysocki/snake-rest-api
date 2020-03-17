@@ -19,7 +19,7 @@ class UserSerializer(ModelSerializer):
 class GameModeSerializer(ModelSerializer):
     class Meta:
         model = GameMode
-        fields = ('board', 'speed', 'acceleration', 'border')
+        fields = ('id', 'board', 'speed', 'acceleration', 'border')
 
 class ScoreboardSerializer(ModelSerializer):
     user = CharField()
@@ -44,9 +44,9 @@ class ScoreboardSerializer(ModelSerializer):
                 game_mode=game_mode.first(),
                 user=user
             )
-            return 'First personal highscore in this game mode!'
+            return 'First personal highscore!'
         elif record.first().score < score:
             record.update(score=score)
-            return 'New personal highscore in this game mode!!!'
+            return 'New personal highscore!!!'
 
         return 'Try again!'

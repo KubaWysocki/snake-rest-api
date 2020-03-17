@@ -5,5 +5,4 @@ __pycache__/
 
 # Django stuff:
 *.log
-secret_settings.py
 db.sqlite3
